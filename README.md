@@ -1,0 +1,2 @@
+# KrizicKruzicAI
+Minimax algoritam
