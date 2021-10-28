@@ -95,6 +95,52 @@ int is_full(vector<vector<int>> board) {
 	return 0;
 }
 
+int max(vector<int> list) {
+	int max_element = list[0];
+
+	for (int element : list) {
+		if (element > max_element) {
+			max_element = element;
+		}
+	}
+
+	return max_element;
+
+}
+
+int min(vector<int> list) {
+	int min_element = list[0];
+
+	for (int element : list) {
+		if (element < min_element) {
+			min_element = element;
+		}
+	}
+
+	return min_element;
+
+}
+
+int minimax(vector<vector<int>> board, int is_maximizing) {
+	if (evaluate_board(board, 1) != 0 || is_full(board) == 1) {
+		return evaluate_board(board, 1);
+	}
+
+	vector<vector<vector<int>>> generated_boards = generate_possibilities(board, (is_maximizing + 1) % 2);
+	vector<int> scores = {};
+
+	for (vector<vector<int>> board_state : generated_boards) {
+		scores.push_back(minimax(board_state, (is_maximizing + 1) % 2));
+	}
+
+	if (is_maximizing == 0) {
+		return max(scores);
+	}
+
+	return min(scores);
+
+}
+
 int main(void) {
 
 	vector<vector<int>> board = {
