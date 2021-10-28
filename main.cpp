@@ -144,13 +144,13 @@ int minimax(vector<vector<int>> board, int is_maximizing) {
 int main(void) {
 
 	vector<vector<int>> board = {
-		{2, 2, 1},
-		{2, 2, 2},
-		{1, 2, 2}
+		{1, 0, 2},
+		{2, 0, 2},
+		{0, 1, 2}
 	};
 
 	for (vector<vector<int>> board_ : generate_possibilities(board, 1)){
-		cout << evaluate_board(board_, 1);
+		cout << minimax(board_, 1);
 		cout << "\n";
 		print_board(board_);
 	}
