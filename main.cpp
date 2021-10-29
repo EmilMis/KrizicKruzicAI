@@ -54,18 +54,26 @@ int evaluate_board(vector<vector<int>> board, int player) {
 
 }
 
-void print_board(vector<vector<int>> board) {
-	for (vector<int> row : board) {
-		for (int element : row) {
-			if (element == 2) {
-				cout << "/ ";
-				continue;
-			}
-			cout << element << " ";
-		}
-		cout << "\n";
+string convert(int player) {
+	if (player == 1) {
+		return "\033[1;31mX\033[0m";
 	}
-	cout << "\n";
+	else if (player == 0) {
+		return "\033[1;0mO\033[0m";
+	}
+	return " ";
+}
+
+void print_board(vector<vector<int>> board) {
+	cout << "\n\n     |     |     \n";
+	cout << "  " + convert(board[0][0]) + "  |  " + convert(board[0][1]) + "  |  " + convert(board[0][2]) + "  \n";
+	cout << "_____|_____|_____\n";
+	cout << "     |     |     \n";
+	cout << "  " + convert(board[1][0]) + "  |  " + convert(board[1][1]) + "  |  " + convert(board[1][2]) + "  \n";
+	cout << "_____|_____|_____\n";
+	cout << "     |     |     \n";
+	cout << "  " + convert(board[2][0]) + "  |  " + convert(board[2][1]) + "  |  " + convert(board[2][2]) + "  \n";
+	cout << "     |     |     \n\n\n";
 }
 
 vector<vector<vector<int>>> generate_possibilities(vector<vector<int>> board, int player) {
@@ -121,6 +129,26 @@ int min(vector<int> list) {
 
 }
 
+
+
+vector<vector<int>> ask_player_input(vector<vector<int>> board_state, int player = 1) {
+	while (true) {
+		int pos;
+		cout << "Unesi broj polja >>> ";
+		scanf_s("%d", &pos);
+
+		int coords[2] = { (int)(pos - 1) / (int)board_state.size(), (pos - 1) % board_state[0].size() };
+
+		if (board_state[coords[0]][coords[1]] != 2) {
+			cout << "polje zauzeto, unosi drugo...\n";
+		}
+		else {
+			board_state[coords[0]][coords[1]] = player;
+			return board_state;
+		}
+	}
+}
+
 int minimax(vector<vector<int>> board, int is_maximizing) {
 	if (evaluate_board(board, 1) != 0 || is_full(board) == 1) {
 		return evaluate_board(board, 1);
@@ -141,18 +169,112 @@ int minimax(vector<vector<int>> board, int is_maximizing) {
 
 }
 
+vector<vector<int>> get_best_move(vector<vector<int>> board) {
+	int max_minimax = -2;
+
+	vector<vector<vector<int>>> generated_possibilities = generate_possibilities(board, 1);
+
+	for (vector<vector<int>> board_ : generated_possibilities) {
+		int this_minimax = minimax(board_, 1);
+		if (this_minimax > max_minimax) {
+			max_minimax = this_minimax;
+			board = board_;
+		}
+	}
+
+	return board;
+}
+
+void print_board_old(vector<vector<int>> board) {
+	for (vector<int> row : board) {
+		for (int element : row) {
+			if (element == 2) {
+				cout << "/ ";
+				continue;
+			}
+			cout << element << " ";
+		}
+		cout << "\n";
+	}
+	cout << "\n";
+}
+
 int main(void) {
 
 	vector<vector<int>> board = {
-		{1, 0, 2},
-		{2, 0, 2},
-		{0, 1, 2}
+	{2, 2, 2},
+	{2, 2, 2},
+	{2, 2, 2}
 	};
 
-	for (vector<vector<int>> board_ : generate_possibilities(board, 1)){
-		cout << minimax(board_, 1);
-		cout << "\n";
-		print_board(board_);
+	string dec;
+
+	cout << "zelis li ici prvi (da/ne)? ";
+	cin >> dec;
+
+	if (dec == "da") {
+		while (true) {
+			print_board(board);
+			if (evaluate_board(board, 1) != 0 || is_full(board) == 1) {
+				if (evaluate_board(board, 1) == 1) {
+					cout << "Pobijedio sam\n";
+				}
+				else {
+					cout << "Nerijeseno\n";
+				}
+				break;
+			}
+			board = ask_player_input(board, 0);
+			print_board(board);
+			if (evaluate_board(board, 1) != 0 || is_full(board) == 1) {
+				if (evaluate_board(board, 1) == 1) {
+					cout << "Pobijedio sam\n";
+				}
+				else {
+					cout << "Nerijeseno\n";
+				}
+				break;
+			}
+			board = get_best_move(board);
+		}
+	}
+	else {
+		while (true) {
+			print_board(board);
+			if (evaluate_board(board, 1) != 0 || is_full(board) == 1) {
+				if (evaluate_board(board, 1) == 1) {
+					cout << "Pobijedio sam\n";
+				}
+				else {
+					cout << "Nerijeseno\n";
+				}
+				break;
+			}
+			board = get_best_move(board);
+			print_board(board);
+			if (evaluate_board(board, 1) != 0 || is_full(board) == 1) {
+				if (evaluate_board(board, 1) == 1) {
+					cout << "Pobijedio sam\n";
+				}
+				else {
+					cout << "Nerijeseno\n";
+				}
+				break;
+			}
+			board = ask_player_input(board, 0);
+		}
 	}
 
+	string decision;
+	cout << "opet (da/ne)? ";
+	cin >> decision;
+
+	if (decision == "da") {
+		cout << "ok, jos jednom...\n";
+		main();
+	}
+	else if (decision == "ne") {
+		cout << "ok, bok...\n";
+		return 0;
+	}
 }
