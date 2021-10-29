@@ -181,7 +181,7 @@ vector<vector<int>> get_best_move(vector<vector<int>> board) {
 			max_minimax = this_minimax;
 			board = board_;
 		}
-		cout << "\n" << ((float)(i + 1) / (float)generated_possibilities.size()) * 100 << "%";
+		cout << "\n\033[1;34m" << ((float)(i + 1) / (float)generated_possibilities.size()) * 100 << "%\033[0m";
 	}
 
 	cout << "\n";
@@ -278,7 +278,7 @@ int main(void) {
 		main();
 	}
 	else{
-		cout << "ok, bok...\n";
+		cout << "ok, bok...\n\n";
 		return 0;
 	}
 }
