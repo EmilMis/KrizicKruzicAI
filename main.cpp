@@ -174,13 +174,17 @@ vector<vector<int>> get_best_move(vector<vector<int>> board) {
 
 	vector<vector<vector<int>>> generated_possibilities = generate_possibilities(board, 1);
 
-	for (vector<vector<int>> board_ : generated_possibilities) {
+	for (int i = 0; i < generated_possibilities.size(); i++) {
+		vector<vector<int>> board_ = generated_possibilities[i];
 		int this_minimax = minimax(board_, 1);
 		if (this_minimax > max_minimax) {
 			max_minimax = this_minimax;
 			board = board_;
 		}
+		cout << "\n" << ((float)(i + 1) / (float)generated_possibilities.size()) * 100 << "%";
 	}
+
+	cout << "\n";
 
 	return board;
 }
@@ -270,10 +274,10 @@ int main(void) {
 	cin >> decision;
 
 	if (decision == "da") {
-		cout << "ok, jos jednom...\n";
+		cout << "ok, jos jednom...\n\n\n\n\n";
 		main();
 	}
-	else if (decision == "ne") {
+	else{
 		cout << "ok, bok...\n";
 		return 0;
 	}
