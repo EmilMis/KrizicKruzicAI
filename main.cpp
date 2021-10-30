@@ -20,7 +20,7 @@ int evaluate_board(vector<vector<int>> board, int player) {
 
 	//stupci
 	for (int i = 0; i < board[0].size(); i++) {
-		vector<int> column = {board[0][i], board[1][i], board[2][i]};
+		vector<int> column = { board[0][i], board[1][i], board[2][i] };
 		if (column[0] == column[1] && column[1] == column[2]) {
 			if (column[1] == 2) {
 				continue;
@@ -65,7 +65,7 @@ string convert(vector<vector<int>> board, int coords) {
 		return "\033[1;31mX\033[0m";
 	}
 	else if (player == 0) {
-		return "\033[1;0mO\033[0m";
+		return "\033[1;32mO\033[0m";
 	}
 	return "\033[1;90m" + to_string(coords + 1) + "\033[0m";
 }
@@ -145,8 +145,8 @@ vector<vector<int>> ask_player_input(vector<vector<int>> board_state, int player
 
 		int coords[2] = { (int)(pos - 1) / (int)board_state.size(), (pos - 1) % board_state[0].size() };
 
-		if (board_state[coords[0]][coords[1]] != 2) {
-			cout << "polje zauzeto, unosi drugo...\n";
+		if (pos > 9 || board_state[coords[0]][coords[1]] != 2) {
+			cout << "Ne mozes biti na tom polju...\n\n";
 		}
 		else {
 			board_state[coords[0]][coords[1]] = player;
@@ -283,7 +283,7 @@ int main(void) {
 		cout << "ok, jos jednom...\n\n\n\n\n";
 		main();
 	}
-	else{
+	else {
 		cout << "ok, bok...\n\n";
 		return 0;
 	}
