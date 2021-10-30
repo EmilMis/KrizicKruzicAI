@@ -54,25 +54,30 @@ int evaluate_board(vector<vector<int>> board, int player) {
 
 }
 
-string convert(int player) {
+string convert(vector<vector<int>> board, int coords) {
+	int x = (coords) / 3;
+	int y = (coords) % 3;
+
+	int player = board[x][y];
+
 	if (player == 1) {
 		return "\033[1;31mX\033[0m";
 	}
 	else if (player == 0) {
 		return "\033[1;0mO\033[0m";
 	}
-	return " ";
+	return "\033[1;90m" + to_string(coords + 1) + "\033[0m";
 }
 
 void print_board(vector<vector<int>> board) {
 	cout << "\n\n     |     |     \n";
-	cout << "  " + convert(board[0][0]) + "  |  " + convert(board[0][1]) + "  |  " + convert(board[0][2]) + "  \n";
+	cout << "  " + convert(board, 0) + "  |  " + convert(board, 1) + "  |  " + convert(board, 2) + "  \n";
 	cout << "_____|_____|_____\n";
 	cout << "     |     |     \n";
-	cout << "  " + convert(board[1][0]) + "  |  " + convert(board[1][1]) + "  |  " + convert(board[1][2]) + "  \n";
+	cout << "  " + convert(board, 3) + "  |  " + convert(board, 4) + "  |  " + convert(board, 5) + "  \n";
 	cout << "_____|_____|_____\n";
 	cout << "     |     |     \n";
-	cout << "  " + convert(board[2][0]) + "  |  " + convert(board[2][1]) + "  |  " + convert(board[2][2]) + "  \n";
+	cout << "  " + convert(board, 6) + "  |  " + convert(board, 7) + "  |  " + convert(board, 8) + "  \n";
 	cout << "     |     |     \n\n\n";
 }
 
