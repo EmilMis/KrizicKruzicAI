@@ -4,6 +4,8 @@
 
 using namespace std;
 
+int trans_T[3][3][3][3][3][3][3][3][3][2];
+
 int evaluate_board(vector<vector<int>> board, int player) {
 	//redci
 	for (vector<int> row : board) {
@@ -141,7 +143,7 @@ vector<vector<int>> ask_player_input(vector<vector<int>> board_state, int player
 	while (true) {
 		int pos;
 		cout << "Unesi broj polja >>> ";
-		scanf("%d", &pos);
+		scanf_s("%d", &pos);
 
 		int coords[2] = { (int)(pos - 1) / (int)board_state.size(), (pos - 1) % board_state[0].size() };
 
@@ -160,6 +162,10 @@ int minimax(vector<vector<int>> board, int is_maximizing) {
 		return evaluate_board(board, 1);
 	}
 
+	if (trans_T[board[0][0]][board[0][1]][board[0][2]][board[1][0]][board[1][1]][board[1][2]][board[2][0]][board[2][1]][board[2][2]][is_maximizing] != 0) {
+		return trans_T[board[0][0]][board[0][1]][board[0][2]][board[1][0]][board[1][1]][board[1][2]][board[2][0]][board[2][1]][board[2][2]][is_maximizing];
+	}
+
 	vector<vector<vector<int>>> generated_boards = generate_possibilities(board, (is_maximizing + 1) % 2);
 	vector<int> scores = {};
 
@@ -167,11 +173,17 @@ int minimax(vector<vector<int>> board, int is_maximizing) {
 		scores.push_back(minimax(board_state, (is_maximizing + 1) % 2));
 	}
 
+	int solution;
+
 	if (is_maximizing == 0) {
-		return max(scores);
+		solution = max(scores);
+	}
+	else {
+		solution = min(scores);
 	}
 
-	return min(scores);
+	trans_T[board[0][0]][board[0][1]][board[0][2]][board[1][0]][board[1][1]][board[1][2]][board[2][0]][board[2][1]][board[2][2]][is_maximizing] = solution;
+	return solution;
 
 }
 
