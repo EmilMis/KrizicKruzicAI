@@ -64,23 +64,23 @@ string convert(vector<vector<int>> board, int coords) {
 	int player = board[x][y];
 
 	if (player == 1) {
-		return "\033[1;31mX\033[0m";
+		return " X ";
 	}
 	else if (player == 0) {
-		return "\033[1;32mO\033[0m";
+		return " O ";
 	}
-	return "\033[1;90m" + to_string(coords + 1) + "\033[0m";
+	return "(" + to_string(coords + 1) + ")";
 }
 
 void print_board(vector<vector<int>> board) {
 	cout << "\n\n     |     |     \n";
-	cout << "  " + convert(board, 0) + "  |  " + convert(board, 1) + "  |  " + convert(board, 2) + "  \n";
+	cout << " " + convert(board, 0) + " | " + convert(board, 1) + " | " + convert(board, 2) + " \n";
 	cout << "_____|_____|_____\n";
 	cout << "     |     |     \n";
-	cout << "  " + convert(board, 3) + "  |  " + convert(board, 4) + "  |  " + convert(board, 5) + "  \n";
+	cout << " " + convert(board, 3) + " | " + convert(board, 4) + " | " + convert(board, 5) + " \n";
 	cout << "_____|_____|_____\n";
 	cout << "     |     |     \n";
-	cout << "  " + convert(board, 6) + "  |  " + convert(board, 7) + "  |  " + convert(board, 8) + "  \n";
+	cout << " " + convert(board, 6) + " | " + convert(board, 7) + " | " + convert(board, 8) + " \n";
 	cout << "     |     |     \n\n\n";
 }
 
@@ -199,7 +199,6 @@ vector<vector<int>> get_best_move(vector<vector<int>> board) {
 			max_minimax = this_minimax;
 			board = board_;
 		}
-		cout << "\n\033[1;34m" << ((float)(i + 1) / (float)generated_possibilities.size()) * 100 << "%\033[0m";
 	}
 
 	cout << "\n";
@@ -234,7 +233,7 @@ int main(void) {
 	cout << "zelis li ici prvi (da/ne)? ";
 	cin >> dec;
 
-	if (dec == "da") {
+	if (dec != "ne") {
 		while (true) {
 			print_board(board);
 			if (evaluate_board(board, 1) != 0 || is_full(board) == 1) {
@@ -291,7 +290,7 @@ int main(void) {
 	cout << "opet (da/ne)? ";
 	cin >> decision;
 
-	if (decision == "da") {
+	if (decision != "ne") {
 		cout << "ok, jos jednom...\n\n\n\n\n";
 		main();
 	}
