@@ -201,7 +201,7 @@ vector<vector<int>> get_best_move(vector<vector<int>> board) {
 		}
 	}
 
-	cout << "\n";
+	cout << "\n\n";
 
 	return board;
 }
@@ -291,7 +291,7 @@ int main(void) {
 	cin >> decision;
 
 	if (decision != "ne") {
-		cout << "ok, jos jednom...\n\n\n\n\n";
+		system("cls");
 		main();
 	}
 	else {
