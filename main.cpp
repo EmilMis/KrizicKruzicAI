@@ -233,7 +233,7 @@ int main(void) {
 	cout << "zelis li ici prvi (da/ne)? ";
 	cin >> dec;
 
-	if (dec != "ne") {
+	if (dec == "da") {
 		while (true) {
 			print_board(board);
 			if (evaluate_board(board, 1) != 0 || is_full(board) == 1) {
