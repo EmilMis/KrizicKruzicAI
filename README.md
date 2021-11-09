@@ -1,3 +1,2 @@
 # KrizicKruzicAI
-Minimax algoritam
-Uglavnom gotovo
+Program s kojim igras Krizic Kruzic
