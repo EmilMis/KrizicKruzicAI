@@ -143,7 +143,7 @@ vector<vector<int>> ask_player_input(vector<vector<int>> board_state, int player
 	while (true) {
 		int pos;
 		cout << "Unesi broj polja >>> ";
-		scanf_s("%d", &pos);
+		scanf("%d", &pos);
 
 		int coords[2] = { (int)(pos - 1) / (int)board_state.size(), (pos - 1) % board_state[0].size() };
 
